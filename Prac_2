@@ -1,0 +1,45 @@
+#Assignment 2  
+#Implement job sequencing with deadlines using a greedy method.
+
+# Job Sequencing with Deadlines using Greedy Method
+
+# Number of jobs
+n = int(input("Enter number of jobs: "))
+
+jobs = []
+
+print("\nEnter JobID Deadline Profit for each job:")
+for i in range(n):
+    job_id = input(f"Job {i+1} ID: ")
+    deadline = int(input("Deadline: "))
+    profit = int(input("Profit: "))
+    print()
+    jobs.append((job_id, deadline, profit))
+
+# Step 1: Sort by profit (descending)
+jobs.sort(key=lambda x: x[2], reverse=True)
+
+# Max deadline will decide slot size
+max_deadline = max(job[1] for job in jobs)
+
+# Create time slots
+slots = [None] * (max_deadline + 1)
+
+total_profit = 0
+
+# Step 2: Greedy scheduling
+for job in jobs:
+    job_id, deadline, profit = job
+
+    # Place job in latest free slot
+    for t in range(deadline, 0, -1):
+        if slots[t] is None:
+            slots[t] = job_id
+            total_profit += profit
+            break
+
+# Output result
+print("Scheduled Job Order:", [j for j in slots if j is not None])
+print("Total Profit:", total_profit)
+
+ 
