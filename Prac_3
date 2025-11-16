@@ -1,0 +1,45 @@
+#Prac_3
+# Write a program to solve a fractional Knapsack problem using a greedy method.
+
+# Input: number of items
+n = int(input("Enter number of items: "))
+
+items = []
+
+print("\nEnter weight and value for each item:")
+for i in range(n):
+    value = float(input(f"Value of item {i+1}: "))
+    weight = float(input(f"Weight of item {i+1}: "))
+    print()
+    ratio = value / weight          # value-to-weight ratio
+    items.append([value, weight, ratio])
+
+# Input: capacity of knapsack
+capacity = float(input("Enter knapsack capacity: "))
+
+# Step 1: Sort items by value-to-weight ratio (descending)
+items.sort(key=lambda x: x[2], reverse=True)
+
+total_value = 0
+
+print("\nSelected items and fractions:")
+
+# Step 2: Greedy selection
+for value, weight, ratio in items:
+    if capacity == 0:
+        break
+
+    if weight <= capacity:
+        # take whole item
+        total_value += value
+        capacity -= weight
+        print(f"Take 100% of item (value={value}, weight={weight})")
+    else:
+        # take fractional part
+        fraction = capacity / weight
+        total_value += value * fraction
+        print(f"Take {fraction*100:.2f}% of item (value={value}, weight={weight})")
+        capacity = 0  # knapsack full
+
+# Final answer
+print(f"\nMaximum value in knapsack = {total_value:.2f}")
